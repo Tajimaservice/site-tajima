@@ -110,6 +110,22 @@ nav a:hover{color:var(--ink);background:var(--card)}
 @media(max-width:480px){.bizlist{grid-template-columns:minmax(0,1fr)}}
 .bizlist li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:14px 16px;font-weight:600}
 .bizlist li span{display:block;font-weight:400;font-size:14px;color:#c3cde6;margin-top:2px}
+/* trabalhos */
+.pares{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:30px}
+@media(max-width:760px){.pares{grid-template-columns:minmax(0,1fr)}}
+.par{margin:0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.par .dup{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3px;background:var(--line)}
+.par .ph{position:relative;margin:0}
+.par img,.gal img{width:100%;aspect-ratio:4/3;object-fit:cover;cursor:zoom-in;display:block}
+.par .tag{left:8px;top:8px;font-size:14px;padding:4px 10px}
+.par figcaption,.gal figcaption{padding:12px 16px;font-size:15px;color:var(--soft)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:22px}
+.gal figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+dialog#zoom{border:0;padding:0;background:transparent;max-width:min(96vw,1200px);max-height:94vh}
+dialog#zoom::backdrop{background:rgba(5,11,34,.86)}
+#zoom img{max-width:100%;max-height:84vh;display:block;border-radius:12px;margin:0 auto}
+#zoom p{color:#fff;text-align:center;margin-top:10px;font-weight:600}
+#zFechar{position:fixed;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:0;background:#fff;color:#0b1f5c;font-size:20px;cursor:pointer}
 /* estimativa */
 .calc{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;margin-top:30px;align-items:start}
 @media(max-width:860px){.calc{grid-template-columns:minmax(0,1fr)}.res{order:-1;position:static}}
@@ -188,7 +204,7 @@ footer p{margin-bottom:4px}
   <div class="bar">
     <a class="logo" href="#inicio" aria-label="Tajima Service – início"><img src="img/logo.jpg" alt="Tajima Service – Reparos e Reformas" width="58" height="46"></a>
     <nav aria-label="Seções">
-      <a href="#servicos">Serviços</a><a href="#projetos">Projetos 3D</a><a href="#como">Como funciona</a><a href="#empresas">Empresas</a><a href="#agendar">Agendar</a>
+      <a href="#servicos">Serviços</a><a href="#trabalhos" id="navTrab" hidden>Trabalhos</a><a href="#projetos">Projetos 3D</a><a href="#como">Como funciona</a><a href="#empresas">Empresas</a><a href="#agendar">Agendar</a>
     </nav>
     <a class="btn sun" href="#agendar"><svg><use href="#cal"/></svg>Agendar visita</a>
   </div>
@@ -203,10 +219,10 @@ footer p{margin-bottom:4px}
       <a class="btn ghost" id="zapHero" href="https://wa.me/5511977853860" target="_blank" rel="noopener"><svg><use href="#zap"/></svg>Chamar no WhatsApp</a>
     </div>
     <div class="pair">
-      <figure><img src="img/antes.jpg" alt="Quarto com mofo e manchas nas paredes e no teto, antes do serviço" width="1072" height="670"><span class="tag a">Antes</span></figure>
-      <figure><img src="img/depois.jpg" alt="O mesmo quarto depois do tratamento do mofo e da pintura nova" width="1072" height="670"><span class="tag d">Depois</span></figure>
+      <figure><img id="hA" src="img/antes.jpg" alt="Quarto com mofo e manchas nas paredes e no teto, antes do serviço" width="1072" height="670"><span class="tag a">Antes</span></figure>
+      <figure><img id="hD" src="img/depois.jpg" alt="O mesmo quarto depois do tratamento do mofo e da pintura nova" width="1072" height="670"><span class="tag d">Depois</span></figure>
     </div>
-    <p class="cap">Tratamento de mofo, correção das paredes e pintura completa de um quarto.</p>
+    <p class="cap" id="hCap">Tratamento de mofo, correção das paredes e pintura completa de um quarto.</p>
   </div>
 </section>
 
@@ -215,6 +231,15 @@ footer p{margin-bottom:4px}
     <h2>O que fazemos</h2>
     <p class="lead">Do conserto pequeno à reforma completa, em casas, apartamentos, comércios e condomínios.</p>
     <div class="grid3" id="svcGrid"></div>
+  </div>
+</section>
+
+<section class="band" id="trabalhos" hidden>
+  <div class="wrap">
+    <h2>Trabalhos realizados</h2>
+    <p class="lead">Fotos das nossas obras. Toque em uma foto para ver maior.</p>
+    <div class="pares" id="pares"></div>
+    <div class="gal" id="gal"></div>
   </div>
 </section>
 
@@ -292,7 +317,7 @@ footer p{margin-bottom:4px}
       <div class="panel">
         <h3>Seus dados</h3>
         <div class="f"><label for="nome">Nome <span class="req">*</span></label><input id="nome" autocomplete="name" placeholder="Como podemos te chamar?"></div>
-        <div class="f"><label for="fone">WhatsApp <span class="req">*</span></label><input id="fone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000"></div>
+        <div class="f"><label for="fone">WhatsApp <span class="req">*</span></label><input id="fone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="20"></div>
         <div class="f"><label for="end">Endereço ou bairro</label><input id="end" autocomplete="street-address" placeholder="Rua, número e bairro"></div>
         <div class="f"><span class="lbl">O local é</span><div class="seg" id="tipo"></div></div>
         <div class="f"><label for="svc">Serviço <span class="req">*</span></label><select id="svc"></select></div>
@@ -341,6 +366,8 @@ footer p{margin-bottom:4px}
   </div>
 </footer>
 
+<dialog id="zoom" aria-label="Foto ampliada"><button type="button" id="zFechar" aria-label="Fechar">✕</button><img id="zImg" alt=""><p id="zLeg"></p></dialog>
+
 <a class="fab" href="https://wa.me/5511977853860" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg style="color:#fff"><use href="#zap"/></svg></a>
 
 <script>
@@ -361,13 +388,25 @@ const CFG = {
 };
 /* ====================================== */
 
-const SVCS = [
-  {n:'Pintura', d:'Paredes, tetos e portas, com correção de massa, lixamento e acabamento caprichado.', c:'#0b8fda', i:'<path d="M5 4h12v5H5zM17 6.5h2v5h-8v3" /><path d="M10 14.5h2v6h-2z"/>'},
-  {n:'Mofo e infiltração', d:'Encontramos a causa, tratamos a parede e refazemos a pintura para o mofo não voltar.', c:'#111111', i:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>'},
-  {n:'Reparos elétricos e hidráulicos', d:'Tomadas, disjuntores, chuveiros, vazamentos e consertos do dia a dia.', c:'#0b1f5c', i:'<path d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-1-1-3z"/>'},
-  {n:'Reformas', d:'Demolição e retirada de entulho, drywall, forro, pisos, portas e acabamentos.', c:'#0b8fda', i:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'},
-  {n:'Projeto 3D', d:'Imagens realistas do ambiente para aprovar layout, materiais e cores antes da obra.', c:'#111111', i:'<path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>'},
-  {n:'Manutenção predial (empresa/condomínio)', d:'Elétrica, SPDA, hidráulica, telhados, regularização para AVCB e manutenção preventiva.', c:'#0b1f5c', i:'<path d="M5 21V4h9v17M14 9h5v12M3 21h18"/><path d="M8 8h3M8 12h3M8 16h3"/>'}
+const ICON = {
+  rolo:'<path d="M5 4h12v5H5zM17 6.5h2v5h-8v3" /><path d="M10 14.5h2v6h-2z"/>',
+  gota:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+  chave:'<path d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-1-1-3z"/>',
+  casa:'<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+  cubo:'<path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+  predio:'<path d="M5 21V4h9v17M14 9h5v12M3 21h18"/><path d="M8 8h3M8 12h3M8 16h3"/>',
+  piso:'<path d="M4 4h16v16H4zM4 12h16M12 4v16"/>',
+  ferramenta:'<path d="M4 20l7-7M14 4l6 6-4 4-6-6zM9 9l6 6"/>'
+};
+const CORES = ['#0b8fda','#111111','#0b1f5c'];
+// serviços de reserva (usados se o assistente estiver fora do ar)
+let SVCS = [
+  {n:'Pintura', d:'Paredes, tetos e portas, com correção de massa, lixamento e acabamento caprichado.', ic:'rolo'},
+  {n:'Mofo e infiltração', d:'Encontramos a causa, tratamos a parede e refazemos a pintura para o mofo não voltar.', ic:'gota'},
+  {n:'Reparos elétricos e hidráulicos', d:'Tomadas, disjuntores, chuveiros, vazamentos e consertos do dia a dia.', ic:'chave'},
+  {n:'Reformas', d:'Demolição e retirada de entulho, drywall, forro, pisos, portas e acabamentos.', ic:'casa'},
+  {n:'Projeto 3D', d:'Imagens realistas do ambiente para aprovar layout, materiais e cores antes da obra.', ic:'cubo'},
+  {n:'Manutenção predial (empresa/condomínio)', d:'Elétrica, SPDA, hidráulica, telhados, regularização para AVCB e manutenção preventiva.', ic:'predio'}
 ];
 const TIPOS = ['Casa','Apartamento','Comércio','Condomínio'];
 const $ = s => document.querySelector(s);
@@ -381,8 +420,17 @@ const API = CFG.api.replace(/\/+$/,'');
 const st = {tipo:'Casa', dia:null, hora:null, modo: API ? 'carregando' : 'simples', enviando:false};
 let dias = [];          // [{d: Date, horas: ['08:00', ...]}]
 
-$('#svcGrid').innerHTML = SVCS.map(s => `<article class="svc"><div class="ico" style="background:${s.c}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${s.i}</svg></div><h3>${esc(s.n.replace(' (empresa/condomínio)',''))}</h3><p>${esc(s.d)}</p><button type="button" data-svc="${esc(s.n)}">Agendar visita →</button></article>`).join('');
-$('#svc').innerHTML = '<option value="">Escolha o serviço</option>' + SVCS.map(s => `<option>${esc(s.n)}</option>`).join('') + '<option>Outro</option>';
+function renderServicos(){
+  $('#svcGrid').innerHTML = SVCS.map((s,k) => `<article class="svc"><div class="ico" style="background:${CORES[k % 3]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[s.ic] || ICON.ferramenta}</svg></div><h3>${esc(s.n.replace(' (empresa/condomínio)',''))}</h3><p>${esc(s.d)}</p><button type="button" data-svc="${esc(s.n)}">Agendar visita →</button></article>`).join('');
+  const atual = $('#svc').value;
+  $('#svc').innerHTML = '<option value="">Escolha o serviço</option>' + SVCS.map(s => `<option>${esc(s.n)}</option>`).join('') + '<option>Outro</option>';
+  if (atual) escolherServico(atual);
+}
+function escolherServico(nome){
+  if (![...$('#svc').options].some(o => o.value === nome)) { const o = document.createElement('option'); o.textContent = nome; $('#svc').insertBefore(o, $('#svc').lastElementChild); }
+  $('#svc').value = nome;
+}
+renderServicos();
 $('#tipo').innerHTML = TIPOS.map(t => `<button type="button" class="chip" aria-pressed="${t===st.tipo}" data-t="${t}">${t}</button>`).join('');
 
 function diasSimples(){
@@ -445,7 +493,8 @@ function dados(){
 function faltando(v){
   const f = [];
   if (!v.nome) f.push('nome');
-  if (v.fone.replace(/\D/g,'').length < 10) f.push('WhatsApp com DDD');
+  const dig = v.fone.replace(/\D/g,'');
+  if (dig.length < 10 || (dig.length === 11 && dig[2] !== '9')) f.push('WhatsApp com DDD');
   if (!v.svc) f.push('serviço');
   if (st.dia === null) f.push('dia');
   if (!st.hora) f.push('horário');
@@ -475,7 +524,7 @@ function sucesso(v, numero){
   $('#ok').classList.add('on');
 }
 function pedir(svc){
-  $('#svc').value = svc; update();
+  escolherServico(svc); update();
   $('#agendar').scrollIntoView();
   setTimeout(() => $('#nome').focus({preventScroll:true}), 400);
 }
@@ -541,11 +590,42 @@ $('#cAg').addEventListener('click', () => {
   if (est.length) {
     const tot = est.reduce((s,e) => s + e.qtd*e.preco, 0);
     $('#obs').value = 'Estimativa pelo site: ' + est.map(e => `${e.servico} ${String(e.qtd).replace('.',',')} ${e.unidade}`).join('; ') + ` (aprox. ${brl(tot)})`;
-    if (!$('#svc').value) $('#svc').value = SVC_DE(est[0].codigo);
+    if (!$('#svc').value) escolherServico(SVC_DE(est[0].codigo));
     update();
   }
   $('#agendar').scrollIntoView();
   setTimeout(() => $('#nome').focus({preventScroll:true}), 400);
+});
+
+/* ----- fotos e serviços que o Marcelo publica pelo assistente ----- */
+const abs = u => /^https?:/.test(u) ? u : API + u;
+async function carregarSite(){
+  if (!API) return;
+  try {
+    const r = await fetch(API + '/api/site/conteudo'); if (!r.ok) return;
+    const j = await r.json();
+    const sv = (j.servicos || []).filter(x => x && x.nome);
+    if (sv.length) { SVCS = sv.map(x => ({n:String(x.nome), d:String(x.descricao || ''), ic:String(x.icone || '')})); renderServicos(); }
+    const pares = (j.antes_depois || []).filter(p => p.antes && p.depois), gal = (j.galeria || []).filter(g => g.foto);
+    if (pares.length) {
+      const p = pares[0];
+      $('#hA').src = abs(p.antes); $('#hD').src = abs(p.depois);
+      $('#hA').alt = 'Antes: ' + (p.legenda || 'obra'); $('#hD').alt = 'Depois: ' + (p.legenda || 'obra');
+      if (p.legenda) $('#hCap').textContent = p.legenda;
+    }
+    const resto = pares.slice(1);
+    $('#pares').innerHTML = resto.map(p => `<figure class="par"><div class="dup"><div class="ph"><img src="${esc(abs(p.antes))}" alt="Antes: ${esc(p.legenda || '')}" loading="lazy" data-z="${esc(abs(p.antes))}" data-l="Antes – ${esc(p.legenda || '')}"><span class="tag a">Antes</span></div><div class="ph"><img src="${esc(abs(p.depois))}" alt="Depois: ${esc(p.legenda || '')}" loading="lazy" data-z="${esc(abs(p.depois))}" data-l="Depois – ${esc(p.legenda || '')}"><span class="tag d">Depois</span></div></div>${p.legenda ? `<figcaption>${esc(p.legenda)}</figcaption>` : ''}</figure>`).join('');
+    $('#gal').innerHTML = gal.map(g => `<figure><img src="${esc(abs(g.foto))}" alt="${esc(g.legenda || 'Trabalho realizado')}" loading="lazy" data-z="${esc(abs(g.foto))}" data-l="${esc(g.legenda || '')}">${g.legenda ? `<figcaption>${esc(g.legenda)}</figcaption>` : ''}</figure>`).join('');
+    $('#pares').hidden = !resto.length; $('#gal').hidden = !gal.length;
+    const tem = resto.length + gal.length > 0;
+    $('#trabalhos').hidden = !tem; $('#navTrab').hidden = !tem;
+  } catch (e) {}
+}
+document.addEventListener('click', e => {
+  const im = e.target.closest('[data-z]');
+  if (im) { $('#zImg').src = im.dataset.z; $('#zImg').alt = im.alt; $('#zLeg').textContent = im.dataset.l || '';
+    try { $('#zoom').showModal(); } catch (er) { $('#zoom').setAttribute('open', ''); } return; }
+  if (e.target.id === 'zFechar' || e.target.id === 'zoom') { try { $('#zoom').close(); } catch (er) { $('#zoom').removeAttribute('open'); } }
 });
 
 document.addEventListener('click', e => {
@@ -555,7 +635,10 @@ document.addEventListener('click', e => {
   const h = e.target.closest('[data-h]'); if (h) { st.hora = h.dataset.h; document.querySelectorAll('[data-h]').forEach(b => b.setAttribute('aria-pressed', b===h)); update(); return; }
 });
 $('#fone').addEventListener('input', e => {
-  const n = e.target.value.replace(/\D/g,'').slice(0,11);
+  let n = e.target.value.replace(/\D/g,'');
+  if (n.length > 11 && n.startsWith('55')) n = n.slice(2);       // a pessoa digitou +55 na frente
+  if (n.startsWith('0')) n = n.replace(/^0+/, '');                 // 011... -> 11...
+  n = n.slice(0,11);
   e.target.value = n.length > 10 ? `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}` : n.length > 6 ? `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}` : n.length > 2 ? `(${n.slice(0,2)}) ${n.slice(2)}` : n;
 });
 $('#form').addEventListener('input', update);
@@ -573,6 +656,7 @@ renderTimes();
 update();
 carregar();
 carregarCalc();
+carregarSite();
 }
 </script>
 </body>
